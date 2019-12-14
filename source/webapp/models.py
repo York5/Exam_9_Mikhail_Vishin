@@ -9,7 +9,7 @@ class Photo(models.Model):
     likes = models.IntegerField(default=0, verbose_name='Likes')
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=False, blank=False, verbose_name='Author',
                                related_name='photos')
-    like_users = models.ManyToManyField(User, related_name='photos', through='webapp.Like',
+    like_users = models.ManyToManyField(User, through='webapp.Like',
                                         blank=True, verbose_name='User_Likes')
 
     def __str__(self):

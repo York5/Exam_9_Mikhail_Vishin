@@ -5,3 +5,8 @@ body {
 .my-container {
     background: white;
 }
+.my_card {
+    padding: 15px 15px 5px;
+    margin-top: 50px;
+    margin-left: 50px;
+}

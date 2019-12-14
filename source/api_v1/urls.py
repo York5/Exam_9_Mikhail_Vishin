@@ -10,7 +10,7 @@ router = routers.DefaultRouter()
 app_name = 'api_v1'
 
 urlpatterns = [
-    path('login/', obtain_auth_token, name='login'),
-    path('logout/', LogoutView.as_view(), name='logout'),
+    # path('login/', obtain_auth_token, name='login'),
+    # path('logout/', LogoutView.as_view(), name='logout'),
     path('', include(router.urls)),
 ]

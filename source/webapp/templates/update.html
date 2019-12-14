@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
+{% block title %}Update Photo{% endblock %}
 {% block menu %}
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="{% url 'webapp:index' %}" id="home_link">Home</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
                 aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -9,10 +10,6 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav ml-auto">
-                <a class="nav-item btn btn-outline-warning mx-2" href="{% url 'webapp:photo_delete' photo.pk %}"
-                   id="create_link">Delete</a>
-                <a class="nav-item btn btn-outline-warning mx-2" href="{% url 'webapp:photo_update' photo.pk %}"
-                   id="create_link">Edit</a>
             </div>
             <div class="navbar-nav ml-auto">
                 <a class="nav-item btn btn-primary mx-2" href="#" data-toggle="modal" data-target="#form_modal"
@@ -22,19 +19,13 @@
         </div>
     </nav>
 {% endblock %}
-{% block title %}{{ photo.description }}{% endblock %}
 {% block content %}
-    <h1 class="main_header text-center pt-4"><b>Details</b></h1>
-    <div class="d-flex">
-        <img src="{{ photo.photo.url }}" class="img-fluid ml-auto mr-auto" alt="picture">
+    <h1 class="main_header text-center pt-4">Edit Photo</h1>
+    <div class="form_container">
+        <form class="my_form py-4" method="POST" action="{% url "webapp:photo_update" photo.pk %}" enctype="multipart/form-data">
+            {% include 'partial/form.html' with button_text="Update" %}
+        </form>
     </div>
-    <div class="text-center">
-        <h5 class="text-center mt-3"><b>{{ photo.description }}</b></h5>
-        <h5>Author: <b>{{ photo.author }}</b></h5>
-        <h5>Likes: <b>{{ photo.likes }}</b></h5>
-        <h5>Date published: <b>{{ photo.created_at }}</b></h5>
-    </div>
-    <hr>
 {% endblock %}
 {% block scripts %}
     <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>

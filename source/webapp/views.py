@@ -1,12 +1,14 @@
+from django.http import HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
 
+from webapp.forms import PhotoForm
 from webapp.models import Photo
 
 
 class PhotoIndexView(ListView):
     template_name = 'index.html'
-    context_object_name = 'polls'
+    context_object_name = 'photos'
     model = Photo
     ordering = ['-created_at']
 
@@ -16,27 +18,33 @@ class PhotoView(DetailView):
     model = Photo
 
 
-class PollCreateView(CreateView):
+class PhotoCreateView(CreateView):
     form_class = PhotoForm
     model = Photo
     template_name = 'create.html'
 
     def get_success_url(self):
-        return reverse('poll_view', kwargs={'pk': self.object.pk})
+        return reverse('webapp:photo_view', kwargs={'pk': self.object.pk})
+
+    def form_valid(self, form):
+        self.object = Photo.objects.create(author=self.request.user, photo=form.cleaned_data['photo'],
+                                           description=form.cleaned_data['description'])
+        return HttpResponseRedirect(self.get_success_url())
 
 
-class PollUpdateView(UpdateView):
+class PhotoUpdateView(UpdateView):
     model = Photo
     template_name = 'update.html'
     form_class = PhotoForm
-    context_object_name = 'poll'
+    context_object_name = 'photo'
 
     def get_success_url(self):
-        return reverse('poll_view', kwargs={'pk': self.object.pk})
+        return reverse('webapp:photo_view', kwargs={'pk': self.object.pk})
 
 
-class PollDeleteView(DeleteView):
+class PhotoDeleteView(DeleteView):
     model = Photo
     template_name = 'delete.html'
-    context_object_name = 'poll'
-    success_url = reverse_lazy('index')
+    context_object_name = 'photo'
+    success_url = reverse_lazy('webapp:index')
+
