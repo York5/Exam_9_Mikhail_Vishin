@@ -38,7 +38,7 @@ function makeRequest(path, method, data=null) {
 
 let createForm, homeLink, enterLink, exitLink, formSubmit, formTitle, content, formModal,
     usernameInput, passwordInput, authorInput, commentTextInput, textUpdateInput,
-    createLink, updateForm, commentAddLink, commentPhoto, commentUser;
+    createLink, updateForm, commentAddLink, commentPhoto, commentUser, likeIcon, dislikeIcon;
 
 
 function setUpGlobalVars() {
@@ -60,6 +60,8 @@ function setUpGlobalVars() {
     commentAddLink = $('#comment_add_link');
     commentPhoto = $('#comment_photo');
     commentUser = $('#comment_user');
+    likeIcon = $('#like_icon');
+    dislikeIcon = $('#dislike-icon');
 }
 
 
@@ -87,6 +89,29 @@ function setUpAddComment() {
 
 }
 
+// function rateUP() {
+//     likeIcon.on('click', function(event) {
+//         event.preventDefault();
+//         let request = makeRequest(
+//             'likes',
+//             'post',
+//             {"text": commentTextInput.val(), });
+//         request.done(function(data, status, response) {
+//         console.log('Like added!');
+//         $('#form_modal').modal('toggle');
+//     }).fail(function(response, status, message) {
+//         console.log('You already liked this photo');
+//         console.log(response.responseText);
+//     });
+//         $('#form_modal').modal('toggle');
+//     });
+
+//     formSubmit.off('click');
+//     formSubmit.on('click', function(event) {
+//         createForm.submit();
+//     });
+//
+// }
 
 $(document).ready(function() {
     setUpGlobalVars();
@@ -95,17 +120,6 @@ $(document).ready(function() {
 });
 
 
-
-// function rateUp(id) {
-//     let request = makeRequest('quotes/' + id + '/rate_up', 'post', false);
-//     request.done(function(data, status, response) {
-//         console.log('Rated up quote with id ' + id + '.');
-//         $('#rating_' + id).text(data.rating);
-//     }).fail(function(response, status, message) {
-//         console.log('Could not rate up quote with id ' + id + '.');
-//         console.log(response.responseText);
-//     });
-// }
 
 
 
