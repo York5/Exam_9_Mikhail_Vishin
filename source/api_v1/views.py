@@ -5,8 +5,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import viewsets, permissions
 
-from api_v1.serializers import QuoteSerializer, QuoteUpdateSerializer, QuoteRatingSerializer
-from webapp.models import Quote, QUOTE_APPROVED
+# from api_v1.serializers import QuoteSerializer, QuoteUpdateSerializer, QuoteRatingSerializer
+# from webapp.models import Quote, QUOTE_APPROVED
 
 
 class LogoutView(APIView):
@@ -29,41 +29,41 @@ class IsPostOrIsAuthenticated(permissions.BasePermission):
         return request.user and request.user.is_authenticated
 
 
-class QuotesViewSet(viewsets.ModelViewSet):
-    permission_classes = [IsPostOrIsAuthenticated | DjangoModelPermissionsOrAnonReadOnly]
-    queryset = Quote.objects.none()
-
-    def get_serializer_class(self):
-        if self.action in ["update", "partial_update"]:
-            return QuoteUpdateSerializer
-        return QuoteSerializer
-
-    def get_queryset(self):
-        user = self.request.user
-        if user.is_authenticated:
-            return Quote.objects.all().order_by('-created_at')
-        else:
-            return Quote.objects.filter(status='approved').order_by('-created_at')
-
-    @action(methods=['post'], detail=True)
-    def rate_up(self, request, pk=None):
-        quote = self.get_object()
-        if quote.status != QUOTE_APPROVED:
-            return Response({'error': 'Цитата не утверждена'}, status=403)
-        quote.rating += 1
-        quote.save()
-        return Response({'id': quote.pk, 'rating': quote.rating})
-
-    @action(methods=['post'], detail=True)
-    def rate_down(self, request, pk=None):
-        quote = self.get_object()
-        if quote.status != QUOTE_APPROVED:
-            return Response({'error': 'Цитата не утверждена'}, status=403)
-        quote.rating -= 1
-        quote.save()
-        return Response({'id': quote.pk, 'rating': quote.rating})
-
-
-
-
-
+# class QuotesViewSet(viewsets.ModelViewSet):
+#     permission_classes = [IsPostOrIsAuthenticated | DjangoModelPermissionsOrAnonReadOnly]
+#     queryset = Quote.objects.none()
+#
+#     def get_serializer_class(self):
+#         if self.action in ["update", "partial_update"]:
+#             return QuoteUpdateSerializer
+#         return QuoteSerializer
+#
+#     def get_queryset(self):
+#         user = self.request.user
+#         if user.is_authenticated:
+#             return Quote.objects.all().order_by('-created_at')
+#         else:
+#             return Quote.objects.filter(status='approved').order_by('-created_at')
+#
+#     @action(methods=['post'], detail=True)
+#     def rate_up(self, request, pk=None):
+#         quote = self.get_object()
+#         if quote.status != QUOTE_APPROVED:
+#             return Response({'error': 'Цитата не утверждена'}, status=403)
+#         quote.rating += 1
+#         quote.save()
+#         return Response({'id': quote.pk, 'rating': quote.rating})
+#
+#     @action(methods=['post'], detail=True)
+#     def rate_down(self, request, pk=None):
+#         quote = self.get_object()
+#         if quote.status != QUOTE_APPROVED:
+#             return Response({'error': 'Цитата не утверждена'}, status=403)
+#         quote.rating -= 1
+#         quote.save()
+#         return Response({'id': quote.pk, 'rating': quote.rating})
+#
+#
+#
+#
+#

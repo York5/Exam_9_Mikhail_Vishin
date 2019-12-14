@@ -40,6 +40,8 @@ function logIn(username, password) {
     request.done(function(data, status, response) {
         console.log('Received token');
         saveToken(data.token);
+        enterLink.addClass('d-none');
+        exitLink.removeClass('d-none');
     }).fail(function(response, status, message) {
         console.log('Could not get token');
         console.log(response);
@@ -181,7 +183,7 @@ function setUpCreate() {
         request.done(function(data, status, response) {
         console.log('Quote added');
     }).fail(function(response, status, message) {
-        console.log('Could not add QUote');
+        console.log('Could not add Quote');
         console.log(response.responseText);
     });
         $('#form_modal').modal('toggle');
@@ -205,20 +207,12 @@ $(document).ready(function() {
     setUpGlobalVars();
     setUpAuth();
     checkAuth();
-    getQuotes();
-    setHome();
-    setUpCreate();
+    // getQuotes();
+    // setHome();
+    // setUpCreate();
     console.log('I have loaded');
     //
     // let token = getToken();
     // if (!token) logIn('admin', 'admin');
 });
 
-// window.onload = function() {
-//     let request = makeRequest('quotes', 'get', false);
-//     request.done(function(data, status, response) {
-//         console.log(data);
-//     let token = getToken();
-//     if (!token) logIn('admin', 'admin');
-//     })
-// };
