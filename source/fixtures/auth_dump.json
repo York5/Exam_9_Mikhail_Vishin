@@ -1,0 +1,77 @@
+[
+{
+  "model": "auth.user",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$150000$XNJJ7fFlzCJB$CVFwjYvs10/iTA4ZZ8SdAEyFVioVR/wI4dEka6sxeSA=",
+    "last_login": "2019-12-14T14:27:21.918Z",
+    "is_superuser": true,
+    "username": "admin",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2019-12-13T18:21:47.198Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 2,
+  "fields": {
+    "password": "pbkdf2_sha256$150000$lTlACVhzz4tr$PBYALey5zyBRz7q3DX3Yt6UakJ8bXtjhsU0l2ZedOKU=",
+    "last_login": "2019-12-14T14:06:10.369Z",
+    "is_superuser": false,
+    "username": "Mike",
+    "first_name": "Mike",
+    "last_name": "Vishin",
+    "email": "mvvm@mail.ru",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2019-12-14T14:01:39Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 3,
+  "fields": {
+    "password": "pbkdf2_sha256$150000$7kPwzpcpuCOI$720RFd9/NH4hDSfOdeR96eahRBDyLLQXn9pMXxTaz18=",
+    "last_login": "2019-12-14T14:31:21.799Z",
+    "is_superuser": false,
+    "username": "Tom",
+    "first_name": "Tom",
+    "last_name": "Bim",
+    "email": "tmbm@mail.ru",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2019-12-14T14:05:20Z",
+    "groups": [],
+    "user_permissions": [
+      [
+        "add_photo",
+        "webapp",
+        "photo"
+      ],
+      [
+        "change_photo",
+        "webapp",
+        "photo"
+      ],
+      [
+        "delete_photo",
+        "webapp",
+        "photo"
+      ],
+      [
+        "view_photo",
+        "webapp",
+        "photo"
+      ]
+    ]
+  }
+}
+]

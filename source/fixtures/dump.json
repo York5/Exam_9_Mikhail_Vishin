@@ -1,0 +1,217 @@
+[
+{
+  "model": "auth.user",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$150000$XNJJ7fFlzCJB$CVFwjYvs10/iTA4ZZ8SdAEyFVioVR/wI4dEka6sxeSA=",
+    "last_login": "2019-12-14T14:27:21.918Z",
+    "is_superuser": true,
+    "username": "admin",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2019-12-13T18:21:47.198Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 2,
+  "fields": {
+    "password": "pbkdf2_sha256$150000$lTlACVhzz4tr$PBYALey5zyBRz7q3DX3Yt6UakJ8bXtjhsU0l2ZedOKU=",
+    "last_login": "2019-12-14T14:06:10.369Z",
+    "is_superuser": false,
+    "username": "Mike",
+    "first_name": "Mike",
+    "last_name": "Vishin",
+    "email": "mvvm@mail.ru",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2019-12-14T14:01:39Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 3,
+  "fields": {
+    "password": "pbkdf2_sha256$150000$7kPwzpcpuCOI$720RFd9/NH4hDSfOdeR96eahRBDyLLQXn9pMXxTaz18=",
+    "last_login": "2019-12-14T14:31:21.799Z",
+    "is_superuser": false,
+    "username": "Tom",
+    "first_name": "Tom",
+    "last_name": "Bim",
+    "email": "tmbm@mail.ru",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2019-12-14T14:05:20Z",
+    "groups": [],
+    "user_permissions": [
+      37,
+      38,
+      39,
+      40
+    ]
+  }
+},
+{
+  "model": "webapp.comment",
+  "pk": 1,
+  "fields": {
+    "text": "Very good Cybertruck!",
+    "photo": 1,
+    "author": 1,
+    "created_at": "2019-12-14T10:41:24.062Z"
+  }
+},
+{
+  "model": "webapp.comment",
+  "pk": 2,
+  "fields": {
+    "text": "I didn't pay my taxes for this freaking rocket!",
+    "photo": 4,
+    "author": 1,
+    "created_at": "2019-12-14T10:42:00.961Z"
+  }
+},
+{
+  "model": "webapp.comment",
+  "pk": 3,
+  "fields": {
+    "text": "Those fins look like they are too weak. Questionable choice of materials.",
+    "photo": 4,
+    "author": 1,
+    "created_at": "2019-12-14T11:08:40.596Z"
+  }
+},
+{
+  "model": "webapp.comment",
+  "pk": 4,
+  "fields": {
+    "text": "Test comment 1",
+    "photo": 2,
+    "author": 1,
+    "created_at": "2019-12-14T11:50:26.540Z"
+  }
+},
+{
+  "model": "webapp.comment",
+  "pk": 5,
+  "fields": {
+    "text": "test comment 2",
+    "photo": 4,
+    "author": 1,
+    "created_at": "2019-12-14T13:33:22.143Z"
+  }
+},
+{
+  "model": "webapp.comment",
+  "pk": 6,
+  "fields": {
+    "text": "test comment 2",
+    "photo": 4,
+    "author": 1,
+    "created_at": "2019-12-14T13:33:22.288Z"
+  }
+},
+{
+  "model": "webapp.comment",
+  "pk": 7,
+  "fields": {
+    "text": "test comment 3",
+    "photo": 4,
+    "author": 1,
+    "created_at": "2019-12-14T13:37:54.503Z"
+  }
+},
+{
+  "model": "webapp.comment",
+  "pk": 8,
+  "fields": {
+    "text": "test comment 4",
+    "photo": 6,
+    "author": 1,
+    "created_at": "2019-12-14T13:38:52.699Z"
+  }
+},
+{
+  "model": "webapp.comment",
+  "pk": 9,
+  "fields": {
+    "text": "test comment 4",
+    "photo": 7,
+    "author": 3,
+    "created_at": "2019-12-14T14:31:29.157Z"
+  }
+},
+{
+  "model": "webapp.photo",
+  "pk": 1,
+  "fields": {
+    "photo": "product_images/61jiZhpjLRL._SY450_.jpg",
+    "description": "The Tesla Cybertruck is an all-electric battery-powered light commercial vehicle in development by Tesla",
+    "created_at": "2019-12-14T07:13:53.937Z",
+    "likes": 0,
+    "author": 1
+  }
+},
+{
+  "model": "webapp.photo",
+  "pk": 2,
+  "fields": {
+    "photo": "product_images/20191122_los-angeles-auto-show-KYLE-ford-mustang-mach-e-front-angle-scaled.jpg",
+    "description": "Built from the Mustang heritage, the Mach-E has all the power and passion but zero emissions.",
+    "created_at": "2019-12-14T07:15:23.848Z",
+    "likes": 0,
+    "author": 1
+  }
+},
+{
+  "model": "webapp.photo",
+  "pk": 3,
+  "fields": {
+    "photo": "product_images/Tesla_Model_3-01.jpg",
+    "description": "The Tesla Model 3 is an electric four-door sedan developed by Tesla.",
+    "created_at": "2019-12-14T07:16:42.015Z",
+    "likes": 0,
+    "author": 1
+  }
+},
+{
+  "model": "webapp.photo",
+  "pk": 4,
+  "fields": {
+    "photo": "product_images/Starship-Mk1-Day_rloZH82.jpg",
+    "description": "The SpaceX Starship is both the second stage of a reusable launch vehicle and a spacecraft that is being developed by SpaceX, as a private spaceflight project.",
+    "created_at": "2019-12-14T08:29:27.863Z",
+    "likes": 0,
+    "author": 1
+  }
+},
+{
+  "model": "webapp.photo",
+  "pk": 6,
+  "fields": {
+    "photo": "product_images/download_QO0Mz8J.png",
+    "description": "Test 1 Description",
+    "created_at": "2019-12-14T09:11:25.834Z",
+    "likes": 0,
+    "author": 1
+  }
+},
+{
+  "model": "webapp.photo",
+  "pk": 7,
+  "fields": {
+    "photo": "product_images/images_ZWPbDic.jpeg",
+    "description": "Test 2 Description",
+    "created_at": "2019-12-14T14:06:28.790Z",
+    "likes": 0,
+    "author": 2
+  }
+}
+]

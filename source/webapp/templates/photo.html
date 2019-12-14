@@ -10,10 +10,14 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav ml-auto">
-                <a class="nav-item btn btn-outline-warning mx-2" href="{% url 'webapp:photo_delete' photo.pk %}"
+                {% if perms.webapp.delete_photo %}
+                    <a class="nav-item btn btn-outline-warning mx-2" href="{% url 'webapp:photo_delete' photo.pk %}"
                    id="create_link">Delete</a>
-                <a class="nav-item btn btn-outline-warning mx-2" href="{% url 'webapp:photo_update' photo.pk %}"
+                {% endif %}
+                {% if perms.webapp.change_photo %}
+                    <a class="nav-item btn btn-outline-warning mx-2" href="{% url 'webapp:photo_update' photo.pk %}"
                    id="create_link">Edit</a>
+                {% endif %}
             </div>
             <div class="navbar-nav ml-auto">
                 {% if request.user.is_authenticated %}
@@ -52,7 +56,7 @@
             </div>
             <div class="btn-group mb-2 mx-1" role="group" aria-label="Basic example">
                 <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#form_modal"
-               id="comment_edit_link">Edit</button>
+                    id="comment_edit_link">Edit</button>
                 <button type="button" class="btn btn-danger" id="comment_delete_link">Delete</button>
             </div>
         </div>

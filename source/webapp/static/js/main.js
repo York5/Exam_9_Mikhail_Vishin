@@ -21,14 +21,13 @@ function getCookie(name) {
     }
     return cookieValue;
 }
-var csrftoken = getCookie('csrftoken');
 
 function makeRequest(path, method, data=null) {
     let settings = {
         url: getFullPath(path),
         method: method,
         dataType: 'json',
-        headers: {'X-CSRFToken': csrftoken}
+        headers: {'X-CSRFToken': getCookie('csrftoken')}
     };
     if (data) {
         settings['data'] = JSON.stringify(data);
@@ -108,28 +107,7 @@ $(document).ready(function() {
 //     });
 // }
 
-function getQuotes() {
-    let request = makeRequest('quotes', 'get', false);
-    request.done(function(data, status, response) {
-        console.log(data);
-        content.html("");
-        data.forEach(function(item, index, array) {
-            content.append($(`<div class="card" id="quote_${item.id}">
-                <p>${item.text}</p>
-                <p id="rating_${item.id}">${item.rating}</p>
-                <p><a href="#" class="btn btn-success" id="rate_up_${item.id}">+</a></p>
-            </div>`));
-            $('#rate_up_' + item.id).on('click', function(event) {
-                console.log('click');
-                event.preventDefault();
-                rateUp(item.id);
-            });
-        });
-    }).fail(function(response, status, message) {
-        console.log('Could not get quotes.');
-        console.log(response.responseText);
-    });
-}
+
 
 
 
