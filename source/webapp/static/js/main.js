@@ -37,13 +37,12 @@ function makeRequest(path, method, data=null) {
     return $.ajax(settings);
 }
 
-let logInForm, createForm, homeLink, enterLink, exitLink, formSubmit, formTitle, content, formModal,
-    usernameInput, passwordInput, authorInput, textInput, emailInput, textUpdateInput, statusInput,
-    ratingInput, createLink, updateForm, commentAddLink;
+let createForm, homeLink, enterLink, exitLink, formSubmit, formTitle, content, formModal,
+    usernameInput, passwordInput, authorInput, commentTextInput, textUpdateInput,
+    createLink, updateForm, commentAddLink, commentPhoto, commentUser;
 
 
 function setUpGlobalVars() {
-    logInForm = $('#login_form');
     createForm = $('#create_form');
     updateForm = $('#update_form');
     homeLink = $('#home_link');
@@ -57,12 +56,11 @@ function setUpGlobalVars() {
     usernameInput = $('#username_input');
     passwordInput = $('#password_input');
     authorInput = $('#author_input');
-    textInput = $('#text_input');
-    emailInput = $('#email_input');
+    commentTextInput = $('#comment_text');
     textUpdateInput = $('#text_update_input');
-    statusInput = $('#status_input');
-    ratingInput = $('#rating_input');
     commentAddLink = $('#comment_add_link');
+    commentPhoto = $('#comment_photo');
+    commentUser = $('#comment_user');
 }
 
 
@@ -70,75 +68,32 @@ function setUpAddComment() {
     createForm.on('submit', function(event) {
         event.preventDefault();
         let request = makeRequest(
-            'quotes',
+            'comments',
             'post',
-            checkAuthQuotes(),
-            {"text": textInput.val(), "author_name": authorInput.val(), "author_email": emailInput.val()});
+            {"text": commentTextInput.val(), "photo": commentPhoto.val(), "author": commentUser.val()});
         request.done(function(data, status, response) {
-        console.log('Quote added');
+        console.log('Comment added!');
+        $('#form_modal').modal('toggle');
     }).fail(function(response, status, message) {
-        console.log('Could not add QUote');
+        console.log('Could not add Comment');
         console.log(response.responseText);
     });
         $('#form_modal').modal('toggle');
     });
 
-    commentAddLink.on('click', function(event) {
-        event.preventDefault();
-        formSubmit.off('click');
-        formSubmit.on('click', function(event) {
-            createForm.submit();
-        });
+    formSubmit.off('click');
+    formSubmit.on('click', function(event) {
+        createForm.submit();
     });
-}
 
+}
 
 
 $(document).ready(function() {
     setUpGlobalVars();
+    setUpAddComment();
     console.log('I have loaded');
-
 });
-
-// function saveToken(token) {
-//     localStorage.setItem('authToken', token);
-// }
-//
-// function getToken() {
-//     return localStorage.getItem('authToken');
-// }
-//
-// function removeToken() {
-//     localStorage.removeItem('authToken');
-// }
-
-// function logIn(username, password) {
-//     const credentials = {username, password};
-//     let request = makeRequest('login', 'post', false, credentials);
-//     request.done(function(data, status, response) {
-//         console.log('Received token');
-//         saveToken(data.token);
-//         enterLink.addClass('d-none');
-//         exitLink.removeClass('d-none');
-//     }).fail(function(response, status, message) {
-//         console.log('Could not get token');
-//         console.log(response);
-//     });
-// }
-
-// function logOut() {
-//     let request = makeRequest('logout', 'post', true);
-//     request.done(function(data, status, response) {
-//         console.log('Cleaned token');
-//         removeToken();
-//         enterLink.removeClass('d-none');
-//         exitLink.addClass('d-none');
-//     }).fail(function(response, status, message) {
-//         console.log('Could not clean token');
-//         console.log(response.responseText);
-//     });
-// }
-
 
 
 
@@ -176,43 +131,6 @@ function getQuotes() {
     });
 }
 
-// function setHome() {
-//     homeLink.on('click', function (event) {
-//         event.preventDefault();
-//         getQuotes();
-//     });
-// }
-
-// function setUpCreate() {
-//     createForm.on('submit', function(event) {
-//         event.preventDefault();
-//         let request = makeRequest(
-//             'quotes',
-//             'post',
-//             checkAuthQuotes(),
-//             {"text": textInput.val(), "author_name": authorInput.val(), "author_email": emailInput.val()});
-//         request.done(function(data, status, response) {
-//         console.log('Quote added');
-//     }).fail(function(response, status, message) {
-//         console.log('Could not add Quote');
-//         console.log(response.responseText);
-//     });
-//         $('#form_modal').modal('toggle');
-//     });
-//
-//     createLink.on('click', function(event) {
-//         event.preventDefault();
-//         createForm.removeClass('d-none');
-//         logInForm.addClass('d-none');
-//         updateForm.addClass('d-none');
-//         formTitle.text('New Quote');
-//         formSubmit.text('Submit');
-//         formSubmit.off('click');
-//         formSubmit.on('click', function(event) {
-//             createForm.submit();
-//         });
-//     });
-// }
 
 
 

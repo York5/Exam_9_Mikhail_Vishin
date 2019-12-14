@@ -20,3 +20,9 @@ body {
     text-decoration: none;
     color: black;
 }
+.like-link {
+    font-size: 40px;
+}
+.dislike-link{
+    font-size:40px;
+}

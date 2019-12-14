@@ -37,10 +37,12 @@
         <h5>Author: <b>{{ photo.author }}</b></h5>
         <h5>Likes: <b>{{ photo.likes }}</b></h5>
         <h5>Date published: <b>{{ photo.created_at }}</b></h5>
+        <a href="" class="text-danger mt-3 m-5"><i class="fas fa-heart like-link"></i></a>
+        <a href="" class="text-primary mt-3 m-5"><i class="fas fa-thumbs-down dislike-link"></i></a>
     </div>
     <hr>
     <h2><b>Comments</b></h2>
-    <button type="button" class="btn btn-primary mb-3" id="comment_add_link">Add Comment</button>
+    <button type="button" class="btn btn-primary mb-3" id="comment_add_link" data-toggle="modal" data-target="#form_modal">Add Comment</button>
     {% for comment in photo.comments.all %}
         <div class="card mb-3 border-dark">
             <div class="comment card-body">
@@ -72,7 +74,7 @@
                 </div>
 
                 <div class="modal-body mx-3">
-                    <form id="login_form" class="d-none">
+                    <form id="create_form">
                         <div class="md-form mb-3">
                             <input type="text" name="comment_text" id="comment_text" class="form-control validate">
                             <label data-error="wrong" data-success="right" for="comment_text">Text</label>
