@@ -17,12 +17,12 @@ class Photo(models.Model):
 
 
 class Comment(models.Model):
-    text = models.TextField(max_length=400, verbose_name='Комментарий')
+    text = models.TextField(max_length=400, verbose_name='Text')
     photo = models.ForeignKey('webapp.Photo', related_name='comments',
-                              on_delete=models.CASCADE, verbose_name='photo')
-    author = models.ForeignKey(User, null=False, blank=False, default=None, verbose_name='Автор',
+                              on_delete=models.CASCADE, verbose_name='Photo')
+    author = models.ForeignKey(User, null=False, blank=False, default=None, verbose_name='Author',
                                on_delete=models.CASCADE, related_name='comments')
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Время создания')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Date added')
 
     def __str__(self):
         return self.text[:20]

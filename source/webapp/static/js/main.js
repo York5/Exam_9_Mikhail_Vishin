@@ -6,64 +6,40 @@ function getFullPath(path) {
     return baseUrl + path + '/';
 }
 
-function makeRequest(path, method, auth=true, data=null) {
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+var csrftoken = getCookie('csrftoken');
+
+function makeRequest(path, method, data=null) {
     let settings = {
         url: getFullPath(path),
         method: method,
-        dataType: 'json'
+        dataType: 'json',
+        headers: {'X-CSRFToken': csrftoken}
     };
     if (data) {
         settings['data'] = JSON.stringify(data);
         settings['contentType'] = 'application/json';
     }
-    if (auth) {
-        settings.headers = {'Authorization': 'Token ' + getToken()};
-    }
     return $.ajax(settings);
-}
-
-function saveToken(token) {
-    localStorage.setItem('authToken', token);
-}
-
-function getToken() {
-    return localStorage.getItem('authToken');
-}
-
-function removeToken() {
-    localStorage.removeItem('authToken');
-}
-
-function logIn(username, password) {
-    const credentials = {username, password};
-    let request = makeRequest('login', 'post', false, credentials);
-    request.done(function(data, status, response) {
-        console.log('Received token');
-        saveToken(data.token);
-        enterLink.addClass('d-none');
-        exitLink.removeClass('d-none');
-    }).fail(function(response, status, message) {
-        console.log('Could not get token');
-        console.log(response);
-    });
-}
-
-function logOut() {
-    let request = makeRequest('logout', 'post', true);
-    request.done(function(data, status, response) {
-        console.log('Cleaned token');
-        removeToken();
-        enterLink.removeClass('d-none');
-        exitLink.addClass('d-none');
-    }).fail(function(response, status, message) {
-        console.log('Could not clean token');
-        console.log(response.responseText);
-    });
 }
 
 let logInForm, createForm, homeLink, enterLink, exitLink, formSubmit, formTitle, content, formModal,
     usernameInput, passwordInput, authorInput, textInput, emailInput, textUpdateInput, statusInput,
-    ratingInput, createLink, updateForm;
+    ratingInput, createLink, updateForm, commentAddLink;
 
 
 function setUpGlobalVars() {
@@ -86,64 +62,99 @@ function setUpGlobalVars() {
     textUpdateInput = $('#text_update_input');
     statusInput = $('#status_input');
     ratingInput = $('#rating_input');
+    commentAddLink = $('#comment_add_link');
 }
 
 
-function setUpAuth() {
-    logInForm.on('submit', function(event) {
+function setUpAddComment() {
+    createForm.on('submit', function(event) {
         event.preventDefault();
-        logIn(usernameInput.val(), passwordInput.val());
+        let request = makeRequest(
+            'quotes',
+            'post',
+            checkAuthQuotes(),
+            {"text": textInput.val(), "author_name": authorInput.val(), "author_email": emailInput.val()});
+        request.done(function(data, status, response) {
+        console.log('Quote added');
+    }).fail(function(response, status, message) {
+        console.log('Could not add QUote');
+        console.log(response.responseText);
+    });
         $('#form_modal').modal('toggle');
     });
 
-    enterLink.on('click', function(event) {
+    commentAddLink.on('click', function(event) {
         event.preventDefault();
-        logInForm.removeClass('d-none');
-        createForm.addClass('d-none');
-        updateForm.addClass('d-none');
-        formTitle.text('Войти');
-        formSubmit.text('Войти');
         formSubmit.off('click');
         formSubmit.on('click', function(event) {
-            logInForm.submit();
+            createForm.submit();
         });
     });
-
-    exitLink.on('click', function(event) {
-        event.preventDefault();
-        logOut();
-    });
 }
 
-function checkAuth() {
-    let token = getToken();
-    if(token) {
-        enterLink.addClass('d-none');
-        exitLink.removeClass('d-none');
-    } else {
-        enterLink.removeClass('d-none');
-        exitLink.addClass('d-none');
-    }
-}
 
-function checkAuthQuotes() {
-    let token = getToken();
-    return !!token;
-}
 
-function rateUp(id) {
-    let request = makeRequest('quotes/' + id + '/rate_up', 'post', false);
-    request.done(function(data, status, response) {
-        console.log('Rated up quote with id ' + id + '.');
-        $('#rating_' + id).text(data.rating);
-    }).fail(function(response, status, message) {
-        console.log('Could not rate up quote with id ' + id + '.');
-        console.log(response.responseText);
-    });
-}
+$(document).ready(function() {
+    setUpGlobalVars();
+    console.log('I have loaded');
+
+});
+
+// function saveToken(token) {
+//     localStorage.setItem('authToken', token);
+// }
+//
+// function getToken() {
+//     return localStorage.getItem('authToken');
+// }
+//
+// function removeToken() {
+//     localStorage.removeItem('authToken');
+// }
+
+// function logIn(username, password) {
+//     const credentials = {username, password};
+//     let request = makeRequest('login', 'post', false, credentials);
+//     request.done(function(data, status, response) {
+//         console.log('Received token');
+//         saveToken(data.token);
+//         enterLink.addClass('d-none');
+//         exitLink.removeClass('d-none');
+//     }).fail(function(response, status, message) {
+//         console.log('Could not get token');
+//         console.log(response);
+//     });
+// }
+
+// function logOut() {
+//     let request = makeRequest('logout', 'post', true);
+//     request.done(function(data, status, response) {
+//         console.log('Cleaned token');
+//         removeToken();
+//         enterLink.removeClass('d-none');
+//         exitLink.addClass('d-none');
+//     }).fail(function(response, status, message) {
+//         console.log('Could not clean token');
+//         console.log(response.responseText);
+//     });
+// }
+
+
+
+
+// function rateUp(id) {
+//     let request = makeRequest('quotes/' + id + '/rate_up', 'post', false);
+//     request.done(function(data, status, response) {
+//         console.log('Rated up quote with id ' + id + '.');
+//         $('#rating_' + id).text(data.rating);
+//     }).fail(function(response, status, message) {
+//         console.log('Could not rate up quote with id ' + id + '.');
+//         console.log(response.responseText);
+//     });
+// }
 
 function getQuotes() {
-    let request = makeRequest('quotes', 'get', checkAuthQuotes());
+    let request = makeRequest('quotes', 'get', false);
     request.done(function(data, status, response) {
         console.log(data);
         content.html("");
@@ -165,54 +176,43 @@ function getQuotes() {
     });
 }
 
-function setHome() {
-    homeLink.on('click', function (event) {
-        event.preventDefault();
-        getQuotes();
-    });
-}
+// function setHome() {
+//     homeLink.on('click', function (event) {
+//         event.preventDefault();
+//         getQuotes();
+//     });
+// }
 
-function setUpCreate() {
-    createForm.on('submit', function(event) {
-        event.preventDefault();
-        let request = makeRequest(
-            'quotes',
-            'post',
-            checkAuthQuotes(),
-            {"text": textInput.val(), "author_name": authorInput.val(), "author_email": emailInput.val()});
-        request.done(function(data, status, response) {
-        console.log('Quote added');
-    }).fail(function(response, status, message) {
-        console.log('Could not add Quote');
-        console.log(response.responseText);
-    });
-        $('#form_modal').modal('toggle');
-    });
+// function setUpCreate() {
+//     createForm.on('submit', function(event) {
+//         event.preventDefault();
+//         let request = makeRequest(
+//             'quotes',
+//             'post',
+//             checkAuthQuotes(),
+//             {"text": textInput.val(), "author_name": authorInput.val(), "author_email": emailInput.val()});
+//         request.done(function(data, status, response) {
+//         console.log('Quote added');
+//     }).fail(function(response, status, message) {
+//         console.log('Could not add Quote');
+//         console.log(response.responseText);
+//     });
+//         $('#form_modal').modal('toggle');
+//     });
+//
+//     createLink.on('click', function(event) {
+//         event.preventDefault();
+//         createForm.removeClass('d-none');
+//         logInForm.addClass('d-none');
+//         updateForm.addClass('d-none');
+//         formTitle.text('New Quote');
+//         formSubmit.text('Submit');
+//         formSubmit.off('click');
+//         formSubmit.on('click', function(event) {
+//             createForm.submit();
+//         });
+//     });
+// }
 
-    createLink.on('click', function(event) {
-        event.preventDefault();
-        createForm.removeClass('d-none');
-        logInForm.addClass('d-none');
-        updateForm.addClass('d-none');
-        formTitle.text('New Quote');
-        formSubmit.text('Submit');
-        formSubmit.off('click');
-        formSubmit.on('click', function(event) {
-            createForm.submit();
-        });
-    });
-}
 
-$(document).ready(function() {
-    setUpGlobalVars();
-    setUpAuth();
-    checkAuth();
-    // getQuotes();
-    // setHome();
-    // setUpCreate();
-    console.log('I have loaded');
-    //
-    // let token = getToken();
-    // if (!token) logIn('admin', 'admin');
-});
 

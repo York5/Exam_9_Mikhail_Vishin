@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
+{% csrf_token %}
 {% block menu %}
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="{% url 'webapp:index' %}" id="home_link">Home</a>
@@ -15,9 +16,12 @@
                    id="create_link">Edit</a>
             </div>
             <div class="navbar-nav ml-auto">
-                <a class="nav-item btn btn-primary mx-2" href="#" data-toggle="modal" data-target="#form_modal"
-                   id="enter_link">Login</a>
-                <a class="nav-item btn btn-danger mx-2" href="#" id="exit_link">Logout</a>
+                {% if request.user.is_authenticated %}
+{#                    <p class="nav-item text-white">Logged in as: {{ request.user }}</p>#}
+                    <a class="nav-item btn btn-danger mx-2" href="{% url 'webapp:logout' %}" id="exit_link">Logout</a>
+                {% else %}
+                    <a class="nav-item btn btn-primary mx-2" href="{% url 'webapp:login' %}" id="enter_link">Login</a>
+                {% endif %}
             </div>
         </div>
     </nav>
@@ -35,6 +39,52 @@
         <h5>Date published: <b>{{ photo.created_at }}</b></h5>
     </div>
     <hr>
+    <h2><b>Comments</b></h2>
+    <button type="button" class="btn btn-primary mb-3" id="comment_add_link">Add Comment</button>
+    {% for comment in photo.comments.all %}
+        <div class="card mb-3 border-dark">
+            <div class="comment card-body">
+                <h4><b>{{ comment.author }}</b></h4>
+                <h5>{{ comment.text }}</h5>
+                <h5>{{ comment.created_at }}</h5>
+            </div>
+            <div class="btn-group mb-2 mx-1" role="group" aria-label="Basic example">
+                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#form_modal"
+               id="comment_edit_link">Edit</button>
+                <button type="button" class="btn btn-danger" id="comment_delete_link">Delete</button>
+            </div>
+        </div>
+    {% empty %}
+        <p>No comment yet</p>
+    {% endfor %}
+    <input type="hidden" id="comment_photo" value="{{ photo.id }}">
+    <input type="hidden" id="comment_user" value="{{ request.user.id }}">
+
+     <div class="modal fade" id="form_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h4 class="modal-title w-100 font-weight-bold text-center" id="form_title">Form</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body mx-3">
+                    <form id="login_form" class="d-none">
+                        <div class="md-form mb-3">
+                            <input type="text" name="comment_text" id="comment_text" class="form-control validate">
+                            <label data-error="wrong" data-success="right" for="comment_text">Text</label>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                    <button type="submit" class="btn btn-primary" id="form_submit">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 {% block scripts %}
     <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
